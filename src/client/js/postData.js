@@ -14,7 +14,7 @@ async function postInputValue(data, url) {
   try {
     const results = await response.json();
     console.log('postData:');
-    console.log(results); // why it didn't show any log?
+    console.log(results); // why it didn't show?
     return results;
   } catch (error) {
     console.log("error", error);

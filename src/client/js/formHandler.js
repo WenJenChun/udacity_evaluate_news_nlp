@@ -1,3 +1,4 @@
+import { postData } from './postData';
 
 function handleSubmit(event) {
     event.preventDefault()
@@ -7,7 +8,7 @@ function handleSubmit(event) {
     if (inputValue ===' ' || inputValue.length === 0){
         alert('Input some texts before submit!');
     } else {
-        Client.postData(inputValue,'http://localhost:8080/addTexts').then(getData).then(updateUI);
+        postData(inputValue,'http://localhost:8080/addTexts').then(getData()).then(updateUI);
 
     }
     
@@ -46,4 +47,4 @@ function handleSubmit(event) {
     }
   }
   
-export { handleSubmit, getData }
+export { handleSubmit, getData, updateUI }
