@@ -36,19 +36,14 @@ const fetchApi = async (URL) => {
   });
   try {
     const data = await res.json();
-    console.log('ttttttt');
     console.log(data);
-    console.log('yyyyyyy');
     if (data.status.msg === 'OK') {
-      console.log('coputer says ok');
-      nlpData.msg = true;
       nlpData.text = data.sentence_list[0].text;
       nlpData.subjectivity = data.subjectivity;
       nlpData.confidence = data.confidence;
       nlpData.polarity = data.score_tag;
       // console.log(data.sentence_list);
     } else {
-      nlpData.msg = false;
       nlpData.text = '';
       nlpData.subjectivity = '';
       nlpData.confidence = '';

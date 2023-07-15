@@ -8,8 +8,7 @@ function handleSubmit(event) {
     if (inputValue ===' ' || inputValue.length === 0){
         alert('Input some texts before submit!');
     } else {
-        postData(inputValue,'http://localhost:8080/addTexts').then(getData()).then(updateUI);
-
+        postData(inputValue,'http://localhost:8080/addTexts').then(getData()).then(updateUI());
     }
     
     // console.log("::: Form Submitted :::")
@@ -39,9 +38,9 @@ function handleSubmit(event) {
       const allData = await request.json();
     //   console.log('updateUI:');
       console.log(allData);
-    //   document.getElementById('polarity').innerHTML = allData.temperature;
-    //   document.getElementById('subjectivity').innerHTML = allData.date;
-    //   document.getElementById('text').innerHTML = allData.userResponse;
+      document.getElementById('polarity').innerHTML = allData.score_tag;
+      document.getElementById('subjectivity').innerHTML = allData.subjectivity;
+      document.getElementById('text').innerHTML = allData.sentence_list[0].text;
     }catch(error){
       console.log("error", error);
     }

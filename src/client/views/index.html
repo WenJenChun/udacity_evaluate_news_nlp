@@ -13,29 +13,24 @@
     <body>
 
         <header>
-            <div class="">
-                Logo
-            </div>
-            <div class="">
-                navigation
-            </div>
+            <h1>Welcome to the Text NLP Analyze Site!</h1>
         </header>
 
         <main>
             <section>
                 <form class="" onsubmit="return handleSubmit(event)">
-                    <input id="content" type="text" name="input" placeholder="input texts or article link">
+                    <input id="content" type="text" name="input" placeholder="input some texts to identify its sentiment">
                     <input type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return Client.handleSubmit(event)">
                 </form>
             </section>
 
             <section>
                 <strong class="result">NLP Analyze Results</strong>
-                <p class="result">polarity: (positive/'negative')</p>
-                <p id="polarity"></p>
-                <p class="result">subjectivity: ('subjective', factual)</p>
+                <p class="sub-title">polarity: (positive or negative)</p>
+                <p id="polarity" class="result"></p>
+                <p class="sub-title">subjectivity:</p>
                 <p id="subjectivity"></p>
-                <p class="result">text: a text snippet from the article</p>
+                <p class="sub-title">text: a text snippet from the article</p>
                 <p id="text"></p>
             </section>
         </main>
