@@ -1,49 +1,45 @@
-import { postData } from './postData';
+import { checkInput } from "./checkInput";
 
 function handleSubmit(event) {
-    event.preventDefault()
+  event.preventDefault()
 
-    // check what text was put into the form field
-    let inputValue = document.getElementById('content').value;
-    if (inputValue ===' ' || inputValue.length === 0){
-        alert('Input some texts before submit!');
-    } else {
-        postData(inputValue,'http://localhost:8080/addTexts').then(getData()).then(updateUI());
-    }
-    
-    // console.log("::: Form Submitted :::")
-    // fetch('http://localhost:8080/addTexts')
-    // .then(res => res.json())
-    // .then(function(res) {
-    //     document.getElementById('results').innerHTML = res.message
-    // })
-
-  };
+  document.getElementById('polarity').innerHTML = '';
+  document.getElementById('subjectivity').innerHTML = '';
+  document.getElementById('text').innerHTML = '';
   
+  let inputValue = document.getElementById('content').value;
 
-  const getData = async () => {
-    const res = await fetch('http://localhost:8080/getData');
-    try {
-      const data = await res.json();
-      console.log(data);
-      return data;
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
+  if (!checkInput(inputValue)){
+      alert('Input some texts before submit!');
+  } else {
+    fetch(`http://localhost:8080/getData?texts=${encodeURIComponent(inputValue)}`)
+    .then(res => {
+        return res.json();
+    })
+    .then(function(res) {
+        console.log(res);
+        if(res.score_tag === 'P+'){
+          document.getElementById('polarity').innerHTML = 'strong positive';
+        } else if(res.score_tag === 'P'){
+          document.getElementById('polarity').innerHTML = 'positive';
+        } else if (res.score_tag === 'N'){
+          document.getElementById('polarity').innerHTML = 'negative';
+        } else if (res.score_tag === 'NEU'){
+          document.getElementById('polarity').innerHTML = 'neutral';
+        } else if (res.score_tag === 'N+'){
+          document.getElementById('polarity').innerHTML = 'strong negative';
+        } else if (res.score_tag === 'NONE'){
+          document.getElementById('polarity').innerHTML = 'without polarity';
+        }
 
-  const updateUI = async () => {
-    const request = await fetch('/getData');
-    try{
-      const allData = await request.json();
-    //   console.log('updateUI:');
-      console.log(allData);
-      document.getElementById('polarity').innerHTML = allData.score_tag;
-      document.getElementById('subjectivity').innerHTML = allData.subjectivity;
-      document.getElementById('text').innerHTML = allData.sentence_list[0].text;
-    }catch(error){
-      console.log("error", error);
-    }
+        document.getElementById('subjectivity').innerHTML = res.subjectivity;
+        document.getElementById('text').innerHTML = res.sentence_list[0].text;
+    })
+    .catch((error) => {
+        console.error("Error:", error);
+    });
   }
-  
-export { handleSubmit, getData, updateUI }
+    
+}
+
+export { handleSubmit }

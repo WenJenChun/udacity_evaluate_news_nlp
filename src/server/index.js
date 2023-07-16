@@ -21,49 +21,18 @@ app.listen(8080, function () {
     console.log('Example app listening on port 8080!')
 })
 
-let userInputValue;
+app.get('/getData', (req, res) => {
 
-const nlpData = {};
+  const texts = req.query.texts;
+  const  url = `https://api.meaningcloud.com/sentiment-2.1?key=${process.env.API_KEY}&lang=auto&txt=${encodeURIComponent(texts)}`;
 
-const apiUrl = (userInputValue) => {
-  return `https://api.meaningcloud.com/sentiment-2.1?key=${process.env.API_KEY}&lang=auto&txt=${userInputValue}`
-};
+  fetch(url)
+    .then(response => response.json())
+    .then((data) => {
+      console.log(data); 
+      console.log(data.status);
+      res.json(data);
+    })
+    .catch(error => console.log('error', error));
 
-const fetchApi = async (URL) => {
-  const res = await fetch(URL, {
-    method: 'POST',
-    redirect: 'follow',
-  });
-  try {
-    const data = await res.json();
-    console.log(data);
-    if (data.status.msg === 'OK') {
-      nlpData.text = data.sentence_list[0].text;
-      nlpData.subjectivity = data.subjectivity;
-      nlpData.confidence = data.confidence;
-      nlpData.polarity = data.score_tag;
-      // console.log(data.sentence_list);
-    } else {
-      nlpData.text = '';
-      nlpData.subjectivity = '';
-      nlpData.confidence = '';
-      nlpData.polarity = '';
-    }
-    console.log(nlpData);
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-app.post('/addTexts', (req, res) => {
-  const data = req.body;
 });
-
-app.get('/getData', function (req, res) {
-  const URL = apiUrl(userInputValue);
-  fetchApi(URL).then(() => {
-    console.log(nlpData);
-    res.send(nlpData);
-  });
-});
-

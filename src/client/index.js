@@ -1,4 +1,4 @@
-import { postData } from './js/postData'
+import { checkInput } from './js/checkInput'
 import { handleSubmit } from './js/formHandler'
 
 import './styles/resets.scss'
@@ -10,6 +10,6 @@ import './styles/header.scss'
 
 
 export {
-    postData,
+    checkInput,
     handleSubmit,
 }
